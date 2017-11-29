@@ -15,9 +15,6 @@ a) Реализация последовательности с помощью массива.*/
 #include  < cstdlib >
 using namespace std;
 
-/*ДОПИСАТЬ К  MONEY ПЕРЕГРУЗКУ COUT <<*/
-
-
 
 template <class Type>
 class Sequence
@@ -39,15 +36,15 @@ public:
 	Type item(int n) const;
 
 	//вставка элемента в конец последовательности
-	void add(Type entry);
+	bool add(Type entry);
 	//удалить элемент по его номеру
-	void delete_ind(int n);
-	//поиск элемента (на выходе индекс найденного элемента) 
+	bool delete_ind(int n);
+	//поиск элем ента (на выходе индекс найденного элемента) 
 	int search(Type value);
 	//поиск подпоследовательности (на выходе индекс начала найденной подпоследовательности) 
 	int search(Sequence seq);
 	//конкатенация последовательностей
-	void concat(Sequence seq);
+	bool concat(Sequence seq);
 
 	//печать элементов последовательности
 	void print();
@@ -77,9 +74,7 @@ size_t Sequence<Type>::size() const
 template <class Type>
 bool Sequence<Type>::is_empty() const
 {
-	if (count > 0)
-		return false;
-	return true;
+	return (count == 0);
 }
 
 //возвращает элемент по индексу
@@ -95,25 +90,31 @@ Type Sequence<Type>::item(int n) const
 
 
 template <class Type>
-void Sequence<Type>::add(Type entry)
+bool Sequence<Type>::add(Type entry)
 {
-	//проверка вместимости последовательности
-	assert(count < MaxN);
-
-	data[count] = entry;
-	count++;
+	if (count == MaxN)
+		return false;
+	else
+	{
+		data[count] = entry;
+		count++;
+		return true;
+	}
 }
 
 //удалить элемент по его номеру
 template <class Type>
-void Sequence<Type>::delete_ind(int n)
+bool Sequence<Type>::delete_ind(int n)
 {
 	if (!is_empty())
 	{
 		for (size_type i = n; i < count; i++)
 			data[i] = data[i + 1];
 		count--;
+		return true;
 	}
+	else
+		return false;
 }
 
 //поиск элемента (на выходе индекс найденного элемента) 
@@ -168,12 +169,17 @@ int Sequence<Type>::search(Sequence seq)
 
 //конкатенация последовательностей
 template <class Type>
-void Sequence<Type>::concat(Sequence seq)
+bool Sequence<Type>::concat(Sequence seq)
 {
-	for (size_t i = 0; i < seq.count; i++)
+	if (seq.count <= MaxN - count)
 	{
-		add(seq.item(i));
+		int i = 0;
+		while ((i < seq.count) && (add(seq.item(i))))
+			i++;
+		return true;
 	}
+	else
+		return false;
 }
 
 template <class Type>

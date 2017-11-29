@@ -63,12 +63,12 @@ int main()
 		{
 		case 1: 
 		{
-			SeqInt.add(a);
-			cout << "В SeqInt добавлено: " << a << endl;
-			SeqStr.add(str);
-			cout << "В SeqStr добавлено: " << str << endl;
-			SeqMn.add(b);
-			cout << "В SeqMn добавлено: " << b << endl;
+			if (SeqInt.add(a))
+				cout << "В SeqInt добавлено: " << a << endl;
+			if (SeqStr.add(str))
+				cout << "В SeqStr добавлено: " << str << endl;
+			if (SeqMn.add(b))
+				cout << "В SeqMn добавлено: " << b << endl;
 		}
 		break;
 		case 2:
@@ -97,9 +97,12 @@ int main()
 		case 4:
 		{
 			cout << "Добавим к самой себе. \n";
-			SeqInt.concat(SeqInt);
-			SeqStr.concat(SeqStr);
-			SeqMn.concat(SeqMn);
+			if (SeqInt.concat(SeqInt))
+				cout << "Добавление в SeqInt удалось.\n";
+			if (SeqStr.concat(SeqStr))
+				cout << "Добавление в SeqStr удалось.\n";
+			if (SeqMn.concat(SeqMn))
+				cout << "Добавление в SeqMn удалось.\n";
 		}
 		break;
 		case 5:
